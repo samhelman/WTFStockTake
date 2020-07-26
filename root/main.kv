@@ -1,0 +1,555 @@
+<Low_Stock_Item_Card>
+    size_hint_y: None
+    height: content.height
+
+    OneLineListItem:
+        id: content
+        text: root.item
+
+<Add_Email_Content>
+    orientation: 'vertical'
+    padding: '16dp'
+    spacing: '16dp'
+    height: app.root.height * .15
+    width: app.root.width * .9
+
+    MDTextField:
+        id: email
+        hint_text: 'Enter email'        
+
+    BoxLayout:
+        size_hint_y: .9
+
+    BoxLayout:
+        spacing: '16dp'
+
+        BoxLayout:
+            size_hint_y: .9
+
+        MDFlatButton:
+            text: 'Cancel'
+            on_release:
+                app.popup.dismiss()
+
+        MDRaisedButton:
+            text: 'Add Contact'
+            on_release:
+                app.add_contact(email.text)
+                app.popup.dismiss()
+
+<Email_Contact_Card>
+    size_hint_y: None
+    height: email.height
+
+    OneLineListItem:
+        id: email
+        text: root.address
+
+    MDIconButton:
+        icon: 'email'
+        on_release:
+            app.send_email(email.text)
+
+    MDIconButton:
+        icon: 'trash-can-outline'
+        on_release:
+            app.confirm_delete_dialog(email.text)
+
+<Subtitle_Widget>
+    size_hint_y: None
+    height: content.height
+
+    MDLabel:
+        id: content
+        text: root.stock_type
+        font_style: 'Button'
+        halign: 'center'
+
+<Confirm_Delete_Dialog_Content>
+    orientation: 'vertical'
+    padding: '16dp'
+    height: app.root.height * .15
+    width: app.root.width * .9
+
+    MDLabel:
+        text: 'Are you sure you want to delete?'
+
+    BoxLayout:
+        spacing: '16dp'
+
+        BoxLayout:
+            size_hint_x: .9
+
+        MDFlatButton:
+            text: 'Cancel'
+            on_release:
+                app.popup.dismiss()
+
+        MDRaisedButton:
+            text: 'Delete'
+            on_release:
+                app.delete_item(root.item)
+                app.popup.dismiss()
+
+<Edit_Item_Dialog_Content>
+    orientation: 'vertical'
+
+    GridLayout:
+        orientation: 'vertical'
+        cols: 1
+        size_hint_y: None
+        height: self.minimum_height
+
+        MDTextField:
+            id: item_name
+            hint_text: 'Item Name'
+            max_text_length: 30
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+        
+        MDTextField:
+            id: item_type
+            hint_text: 'Item Type'
+            max_text_length: 20
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: stock_level
+            hint_text: 'Stock Level'
+            input_filter: 'int'
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: stock_units
+            hint_text: 'Stock Units'
+            max_text_length: 12
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: low_threshold
+            hint_text: 'Low Threshold'
+            input_filter: 'int'
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: pop_weighting
+            hint_text: 'Popular Weighting'
+            input_filter: 'int'
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+    BoxLayout:
+        spacing: '16dp'
+
+        BoxLayout:
+            size_hint_x: .9
+
+        MDRaisedButton:
+            text: 'Apply Changes'
+            on_release:
+                app.apply_edit_changes(item_name.text, item_type.text, stock_level.text, stock_units.text, low_threshold.text, pop_weighting.text)
+                app.root.ids.screen_manager.current = 'manage_items'
+
+<Add_Item_Dialog_Content>
+    orientation: 'vertical'
+    height: app.root.height * .75
+    width: app.root.width * .9
+
+    GridLayout:
+        orientation: 'vertical'
+        cols: 1
+        size_hint_y: None
+        height: self.minimum_height
+
+        MDTextField:
+            id: item_name
+            hint_text: 'Item Name'
+            max_text_length: 30
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+        
+        MDTextField:
+            id: item_type
+            hint_text: 'Item Type'
+            max_text_length: 20
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: stock_level
+            hint_text: 'Stock Level'
+            input_filter: 'int'
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: stock_units
+            hint_text: 'Stock Units'
+            max_text_length: 12
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: low_threshold
+            hint_text: 'Low Threshold'
+            input_filter: 'int'
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+        MDTextField:
+            id: popular_weighting
+            hint_text: 'Popular Weighting'
+            input_filter: 'int'
+            size_hint_y: None
+            size_hint_x: None
+            width: root.width * .9
+
+    BoxLayout:
+        spacing: '16dp'
+
+        BoxLayout:
+            size_hint_x: .9
+
+        MDFlatButton:
+            text: 'Cancel'
+            on_release:
+                app.popup.dismiss()
+                #app.root.ids.screen_manager.current = 'manage_items'
+
+        MDRaisedButton:
+            text: 'Add Item'
+            on_release:
+                app.add_item(item_name.text, item_type.text, stock_level.text, stock_units.text, low_threshold.text, popular_weighting.text)
+                #app.root.ids.screen_manager.current = 'manage_items'
+                app.popup.dismiss()
+                app.load_manage_items_screen()
+                app.load_view_stock_screen()
+                app.load_add_remove_stock_screen()
+
+<Manage_Items_Swipe_Card> 
+    size_hint_y: None
+    height: content.height
+
+    OneLineListItem: 
+        id: content      
+        text: root.item
+        on_release:
+            app.root.ids.screen_manager.current = 'edit_item'
+            app.load_edit_item_screen(root.item)
+
+    MDIconButton:
+        icon: 'trash-can-outline'
+        on_release:
+            app.confirm_delete_dialog(root.item)
+
+<Add_Remove_Stock_Card>
+    size_hint_y: None
+    height: name.height
+
+    MDLabel:
+        id: name
+        size_hint_x: .5
+        halign: 'center'
+        text: root.name
+
+    BoxLayout:
+        size_hint_x: '.25'
+        spacing: '12dp'
+
+        MDLabel:
+            halign: 'center'
+            text: '-'
+
+        MDSwitch:
+            id: plus_minus
+            size_hint_x: None
+
+        MDLabel:
+            halign: 'center'
+            text: ' +'
+
+    BoxLayout:
+        size_hint_x: .1
+
+    BoxLayout:
+        size_hint_x: .15
+        orientation: 'vertical'
+
+        BoxLayout:
+            size_hint_y: .25
+
+        MDTextFieldRect:
+            id: stock
+            size_hint_x: None
+            size_hint_y: .5
+            width: 2 * self.height
+            input_filter: 'int'
+
+        BoxLayout:
+            size_hint_y: .25
+
+<View_Stock_Card>
+    size_hint_y: None
+    height: item.height
+
+    GridLayout:
+        cols: 3
+        spacing: '8dp'
+
+        MDLabel:
+            id: item
+            size_hint_x: .5
+            text: root.item
+            halign: 'center'
+
+        MDLabel:
+            size_hint_x: .25
+            text: root.stock
+            halign: 'center'
+
+        MDLabel:
+            size_hint_x: .25
+            text: root.low
+            halign: 'center'
+
+<MainLayout>
+    
+    ScreenManager:
+        id: screen_manager
+
+        Screen:
+            name: 'manage_items'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                MDToolbar:
+                    title: 'Manage Items'
+                    left_action_items: [['menu', lambda x: navigation_drawer.set_state()]]
+
+                FloatLayout:
+                	pos_hint: {'center_x':.5,'center_y':.5}
+                	padding: '16dp'
+
+                    ScrollView:
+
+                        MDList:
+                            id: manage_items_list
+                
+                    MDFloatingActionButton:
+                        icon: 'plus'
+                        pos_hint: {'center_x':.85,'center_y':.1}
+                        md_bg_color: app.theme_cls.primary_color
+                        text_color: app.theme_cls.opposite_text_color
+                        on_release:
+                            app.open_add_item_popup()
+
+        Screen:
+            name: 'view_stock'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                MDToolbar:
+                    title: 'View Stock'
+                    left_action_items: [['menu', lambda x: navigation_drawer.set_state()]]
+
+                MDCard:
+                    size_hint_y: None
+
+                    GridLayout:
+                        cols: 3
+                        spacing: '8dp'
+
+                        MDLabel:
+                            size_hint_x: .5
+                            text: 'Item'
+                            halign: 'center'
+                            font_style: 'H6'
+
+                        MDLabel:
+                            size_hint_x: .25
+                            text: 'Stock'
+                            halign: 'center'
+                            font_style: 'H6'
+
+                        MDLabel:
+                            size_hint_x: .25
+                            text: 'Low?'
+                            halign: 'center'
+                            font_style: 'H6'
+
+                ScrollView:
+
+                    MDList:
+                        id: view_stock_list
+
+        Screen:
+            name: 'add_remove_stock'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                MDToolbar:
+                    title: 'Add/Remove Stock'
+                    left_action_items: [['menu', lambda x: navigation_drawer.set_state()]]
+
+                MDCard:
+                    size_hint_y: None
+                    height: '50dp'
+
+                    GridLayout:
+                        cols: 3
+                        spacing: '8dp'
+
+                        MDLabel:
+                            size_hint_x: .5
+                            text: 'Item'
+                            halign: 'center'
+                            font_style: 'H6'
+
+                        MDLabel:
+                            id: content
+                            size_hint_x: .25
+                            text: 'Remove/\nAdd?'
+                            halign: 'center'
+                            font_style: 'H6'
+
+                        MDLabel:
+                            size_hint_x: .25
+                            text: 'Quantity'
+                            halign: 'center'
+                            font_style: 'H6'
+
+                ScrollView:
+                    size_hint_y: .9
+
+                    MDList:
+                        id: add_remove_stock_list
+
+            MDFillRoundFlatButton:
+                text: 'Apply Changes'
+                pos_hint: {'center_x':.7,'center_y':.05}
+                on_release:
+                    app.apply_stock_changes()
+                    app.root.ids.screen_manager.current = 'view_stock'
+                    app.load_view_stock_screen()
+
+        Screen:
+            name: 'dialog'
+
+            BoxLayout:
+                id: dialog_layout
+                padding: '16dp'
+
+        Screen:
+            name: 'edit_item'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                MDToolbar:
+                    title: 'Edit Item'
+                    left_action_items: [['arrow-left-thick', lambda x: app.set_screen('manage_items')]]
+
+                BoxLayout:
+                    id: edit_item_layout
+                    padding: '16dp'
+
+        Screen:
+            name: 'send_data'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                MDToolbar:
+                    title: 'Send Data'
+                    left_action_items: [['menu', lambda x: navigation_drawer.set_state()]]
+
+                FloatLayout:
+                	pos_hint: {'center_x':.5,'center_y':.5}
+                	padding: '16dp'
+
+                    ScrollView:
+
+                        MDList:
+                            id: emails_list                      
+                    
+                    MDFloatingActionButton:
+                        icon: 'plus'
+                        pos_hint: {'center_x':.85,'center_y':.1}
+                        md_bg_color: app.theme_cls.primary_color
+                        text_color: app.theme_cls.opposite_text_color
+                        on_release:
+                            app.open_add_email_popup()
+
+        Screen:
+            name: 'low_stock'
+
+            BoxLayout:
+                orientation: 'vertical'
+
+                MDToolbar:
+                    title: 'Low Stock'
+                    left_action_items: [['menu', lambda x: navigation_drawer.set_state()]]
+
+                FloatLayout:
+                	pos_hint: {'center_x':.5,'center_y':.5}
+                	padding: '16dp'
+
+                    ScrollView:
+
+                        MDList:
+                            id: low_stock_layout     
+
+    MDNavigationDrawer:
+        id: navigation_drawer
+
+        ScrollView:
+
+            MDList:
+
+                OneLineListItem:
+                    text: 'Manage Items'
+                    on_release:
+                        app.root.ids.screen_manager.current = 'manage_items'
+                        navigation_drawer.set_state()
+
+                OneLineListItem:
+                    text: 'View Stock'
+                    on_release:
+                        app.root.ids.screen_manager.current = 'view_stock'
+                        navigation_drawer.set_state()
+                
+                OneLineListItem:
+                    text: 'Add/Remove Stock'
+                    on_release:
+                        app.root.ids.screen_manager.current = 'add_remove_stock'
+                        navigation_drawer.set_state()
+
+                OneLineListItem:
+                    text: 'Low Stock'
+                    on_release:
+                        app.root.ids.screen_manager.current = 'low_stock'
+                        navigation_drawer.set_state()
+
+                OneLineListItem:
+                    text: 'Send Data'
+                    on_release:
+                        app.root.ids.screen_manager.current = 'send_data'
+                        navigation_drawer.set_state()
